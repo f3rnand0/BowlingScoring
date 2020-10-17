@@ -1,13 +1,11 @@
-package bowling.scoringapp.read.input.impl;
+package bowling.scoringapp.transform.input.impl;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
-public class ReadTenPinBowlFileTest {
+public class TransformTenPinBowlFileTest {
     private static String contents;
 
     @Before

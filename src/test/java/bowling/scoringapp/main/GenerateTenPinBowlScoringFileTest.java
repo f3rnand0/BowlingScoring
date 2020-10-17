@@ -1,7 +1,7 @@
 package bowling.scoringapp.main;
 
-import bowling.scoringapp.read.input.api.IReadInput;
-import bowling.scoringapp.read.input.impl.ReadTenPinBowlFile;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,9 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
-
-import static org.junit.Assert.*;
 
 public class GenerateTenPinBowlScoringFileTest {
     private static File file;
@@ -23,8 +20,9 @@ public class GenerateTenPinBowlScoringFileTest {
 
     @Test
     public void readFileContents() {
+//        System.out.println(fileContent);
         String fileContent = readFromInputStream(file).toString();
-        System.out.println(fileContent);
+        Assert.assertFalse(StringUtils.isBlank(fileContent));
     }
 
     private static String readFromInputStream(File file) {

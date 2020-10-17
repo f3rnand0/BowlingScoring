@@ -1,12 +1,15 @@
 package bowling.scoringapp.main;
 
-import bowling.scoringapp.dtos.ScoreFrame;
-import bowling.scoringapp.read.input.api.IReadInput;
-import bowling.scoringapp.read.input.impl.ReadTenPinBowlFile;
+import bowling.scoringapp.transform.input.api.ITransformInput;
+import bowling.scoringapp.transform.input.impl.TransformTenPinBowlFile;
+import bowling.scoringapp.validate.input.api.ValidateInputFile;
+import bowling.scoringapp.validate.input.impl.ValidateInputTenPinBowlFile;
+import bowling.utils.Constants;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class GenerateTenPinBowlScoringFile {
@@ -15,7 +18,11 @@ public class GenerateTenPinBowlScoringFile {
         String fileName = in.next();
         File file = new File (fileName);
         String fileContent = readFromInputStream(file).toString();
-        IReadInput input = new ReadTenPinBowlFile();
+        String[] lines = fileContent.split(Constants.FILE_DELIMITER);
+
+        ValidateInputFile validate = new ValidateInputTenPinBowlFile();
+
+        ITransformInput transform = new TransformTenPinBowlFile();
         // Read and validate input. Return a List<PlayerScoreFrames>
         // String scores = input.readInputAsString(fileContent);
         // Generate scoring and add to List<PlayerScoreFrames>

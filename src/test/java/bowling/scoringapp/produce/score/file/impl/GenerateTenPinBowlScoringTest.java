@@ -1,16 +1,21 @@
 package bowling.scoringapp.produce.score.file.impl;
 
-import bowling.scoringapp.dtos.ScoreFrame;
+import bowling.scoringapp.dtos.FrameData;
+import bowling.scoringapp.dtos.Results;
+import bowling.utils.DataValidation;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class GenerateTenPinBowlScoringTest {
-    private static ScoreFrame[] allResults;
+    private static FrameData[] allResults;
     private static final int expectedScore = 54;
 
     public GenerateTenPinBowlScoringTest() {
@@ -19,26 +24,26 @@ public class GenerateTenPinBowlScoringTest {
     @Before
     public void setup() {
         String[] players = {"A", "B"};
-        Map<String,String[]> playersResults1 = new HashMap<>();
-        Map<String,String[]> playersResults2 = new HashMap<>();
-        Map<String,String[]> playersResults3 = new HashMap<>();
-        Map<String,String[]> playersResults4 = new HashMap<>();
-        Map<String,String[]> playersResults5 = new HashMap<>();
-        Map<String,String[]> playersResults6 = new HashMap<>();
-        Map<String,String[]> playersResults7 = new HashMap<>();
-        Map<String,String[]> playersResults8 = new HashMap<>();
-        Map<String,String[]> playersResults9 = new HashMap<>();
-        Map<String,String[]> playersResults10 = new HashMap<>();
-        playersResults1.put("A", new String[]{"2", "8"});
-        playersResults1.put("B", new String[]{"3", "7"});
-        ScoreFrame s1 = new ScoreFrame(playersResults1, 1);
-        playersResults2.put("A", new String[]{"10", ""});
-        playersResults2.put("B", new String[]{"6", "3"});
-        ScoreFrame s2 = new ScoreFrame(playersResults2, 2);
-        playersResults3.put("A", new String[]{"10", "", "2", "F"});
-        playersResults3.put("B", new String[]{"", "10"});
-        ScoreFrame s3 = new ScoreFrame(playersResults3, 3);
-        allResults = new ScoreFrame[]{s1, s2, s3};
+        Map<String,Results> playersResults1 = new HashMap<>();
+        Map<String,Results> playersResults2 = new HashMap<>();
+        Map<String,Results> playersResults3 = new HashMap<>();
+        Map<String,Results> playersResults4 = new HashMap<>();
+        Map<String,Results> playersResults5 = new HashMap<>();
+        Map<String,Results> playersResults6 = new HashMap<>();
+        Map<String,Results> playersResults7 = new HashMap<>();
+        Map<String,Results> playersResults8 = new HashMap<>();
+        Map<String,Results> playersResults9 = new HashMap<>();
+        Map<String,Results> playersResults10 = new HashMap<>();
+        playersResults1.put("A", new Results(new String[]{"2", "8"}));
+        playersResults1.put("B", new Results(new String[]{"3", "7"}));
+        FrameData s1 = new FrameData(playersResults1, 1, "");
+        playersResults2.put("A", new Results(new String[]{"10", ""}));
+        playersResults2.put("B", new Results(new String[]{"6", "3"}));
+        FrameData s2 = new FrameData(playersResults2, 2, "");
+        playersResults3.put("A", new Results(new String[]{"10", "", "2", "F"}));
+        playersResults3.put("B", new Results(new String[]{"", "10"}));
+        FrameData s3 = new FrameData(playersResults3, 3, "");
+        allResults = new FrameData[]{s1, s2, s3};
     }
 
     @Test
@@ -47,7 +52,7 @@ public class GenerateTenPinBowlScoringTest {
         List<String> players = new ArrayList<>();
 
         // Get players
-        for (String player: allResults[0].getPlayersResults().keySet()) {
+        for (String player: allResults[0].getResults().keySet()) {
             players.add(player);
         }
 
@@ -56,9 +61,9 @@ public class GenerateTenPinBowlScoringTest {
         int score = 0;
         for (int i = 0; i < allResults.length; i++) {
             // Get result of frame
-            String[] frameResults = allResults[i].getPlayersResults().get(playerA);
-            int frameResult1 = getInteger(frameResults[0]);
-            int frameResult2 = getInteger(frameResults[1]);
+            String[] frameResults = allResults[i].getResults().get(playerA).getPinfalls();
+            int frameResult1 = DataValidation.getInteger(frameResults[0]);
+            int frameResult2 = DataValidation.getInteger(frameResults[1]);
             System.out.println("frameResult1: " +frameResult1);
             System.out.println("frameResult2: " +frameResult2);
 
@@ -86,13 +91,13 @@ public class GenerateTenPinBowlScoringTest {
         int bonus = 0;
         // On all frames except last one
         if (frame < allResults.length - 1) {
-            String[] frameResults = allResults[frame+1].getPlayersResults().get(player);
-            bonus = getInteger(frameResults[0]);
+            String[] frameResults = allResults[frame+1].getResults().get(player).getPinfalls();
+            bonus = DataValidation.getInteger(frameResults[0]);
         }
         // On last frame
         else {
-            String lastBonus = allResults[frame].getPlayersResults().get(player)[2];
-            bonus = getInteger(lastBonus);
+            String lastBonus = allResults[frame].getResults().get(player).getPinfalls()[2];
+            bonus = DataValidation.getInteger(lastBonus);
         }
         return bonus;
     }
@@ -101,44 +106,33 @@ public class GenerateTenPinBowlScoringTest {
         int bonus = 0;
         // On first frames, except last two
         if ((frame + 1) < (allResults.length - 1)) {
-            String[] frameResults = allResults[frame+1].getPlayersResults().get(player);
-            bonus = getInteger(frameResults[0]);
-            frameResults = allResults[frame+2].getPlayersResults().get(player);
-            bonus += getInteger(frameResults[0]);
+            String[] frameResults = allResults[frame+1].getResults().get(player).getPinfalls();
+            bonus = DataValidation.getInteger(frameResults[0]);
+            frameResults = allResults[frame+2].getResults().get(player).getPinfalls();
+            bonus += DataValidation.getInteger(frameResults[0]);
         }
         // On penultimate frame
         else if ((frame + 1) == (allResults.length - 1)) {
-            String[] frameResults = allResults[frame + 1].getPlayersResults().get(player);
-            int firstValue = getInteger(frameResults[0]);
-            int secondValue = getInteger(frameResults[1]);
+            String[] frameResults = allResults[frame + 1].getResults().get(player).getPinfalls();
+            int firstValue = DataValidation.getInteger(frameResults[0]);
+            int secondValue = DataValidation.getInteger(frameResults[1]);
             // When there was strike on last frame
             if (firstValue == 10)
-                bonus = getInteger(frameResults[0]) + getInteger(frameResults[2]);
+                bonus = DataValidation.getInteger(frameResults[0]) + DataValidation.getInteger(frameResults[2]);
             // When there was spare or some pinfalls on last frame
             else
                 bonus = firstValue + secondValue;
         }
         // On last frame
         else {
-            String result1 = allResults[frame].getPlayersResults().get(player)[2];
-            String result2 = allResults[frame].getPlayersResults().get(player)[3];
-            bonus = getInteger(result1) + getInteger(result2);
+            String result1 = allResults[frame].getResults().get(player).getPinfalls()[2];
+            String result2 = allResults[frame].getResults().get(player).getPinfalls()[3];
+            bonus = DataValidation.getInteger(result1) + DataValidation.getInteger(result2);
         }
         return bonus;
     }
 
-    private int getInteger(String text) {
-        if (NumberUtils.isParsable(text)) {
-            return Integer.valueOf(text);
-        }
-        else {
-            if (text.equals("F"))
-                return 0;
-            // When is empty string
-            else
-                return -1;
-        }
-    }
+
 
     private int getPositiveInteger(String text) {
         if (NumberUtils.isParsable(text)) {
