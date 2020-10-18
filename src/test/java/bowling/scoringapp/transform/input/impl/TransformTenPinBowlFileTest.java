@@ -14,7 +14,7 @@ public class TransformTenPinBowlFileTest {
     }
 
     @Test
-    public void readInputAsString() {
+    public void transformInputByFrameByPlayer() {
         String[] lines = contents.split("\n");
         System.out.println(Arrays.toString(lines));
     }

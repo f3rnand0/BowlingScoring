@@ -17,6 +17,19 @@ public class DataValidation {
         }
     }
 
+    public static int getActualInteger(String text) {
+        if (NumberUtils.isParsable(text)) {
+            return Integer.valueOf(text);
+        }
+        else {
+            if (text.equals("F"))
+                return 0;
+                // When it's an empty string (strike)
+            else
+                return Constants.INTEGER_FOR_CHAR_IDENTIFIER;
+        }
+    }
+
     public static int isCorrectResult(String text) {
         if (NumberUtils.isParsable(text)) {
             int value = Integer.valueOf(text);
@@ -31,5 +44,9 @@ public class DataValidation {
             else
                 return -1;
         }
+    }
+
+    public static boolean isPositiveInteger(Integer number) {
+        return Integer.signum(number) >= 0 ? true : false;
     }
 }
