@@ -1,12 +1,16 @@
 package bowling.scoringapp.transform.input.impl;
 
 import bowling.scoringapp.dtos.FrameData;
+import bowling.scoringapp.dtos.Results;
 import bowling.scoringapp.transform.input.api.ITransformInput;
+import bowling.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class TransformTenPinBowlFileTest {
 
@@ -20,9 +24,23 @@ public class TransformTenPinBowlFileTest {
                 "John\t10", "Jeff\t10", "John\t8", "John\t1", "Jeff\t0", "Jeff\t8", "John\t10", "Jeff\t8", "Jeff\t2",
                 "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
-        ITransformInput transformInput = new TransformTenPinBowlFile<>();
-        FrameData[] frameData = transformInput.transformInputByFrameByPlayer(contents);
-        System.out.println(Arrays.toString(frameData));
-        Assert.assertTrue(true);
+
+        ITransformInput transformInput = new TransformTenPinBowlFile();
+        FrameData[][] allFrames = transformInput.transformInputByFrameByPlayer(contents);
+        Assert.assertEquals(2, allFrames.length);
+        Assert.assertEquals(10, allFrames[0].length);
+        Assert.assertEquals(10, allFrames[1].length);
+        Assert.assertEquals(Arrays.asList("8", "2", "8"), allFrames[0][9].getResults().getPinFalls());
+        Assert.assertEquals(Arrays.asList("10", "9", "0"), allFrames[1][9].getResults().getPinFalls());
+//        System.out.println(Arrays.toString(allFrames));
+//        for (int i = 0; i < allFrames.length; i++) {
+//            for (int j = 0; j < allFrames[i].length; j++) {
+//                System.out.println("FRAME - frame: " + allFrames[i][j].getFrame());
+//                System.out.print("FRAME - results: ");
+//                Results results = allFrames[i][j].getResults();
+//                System.out.print(allFrames[i][j].getPlayer() + " result: " + allFrames[i][j].getResults().getPinFalls() + " mark:" + allFrames[i][j].getResults().getMark());
+//                System.out.println("");
+//            }
+//        }
     }
 }

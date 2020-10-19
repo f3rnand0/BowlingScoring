@@ -11,16 +11,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GenerateTenPinBowlScoringFileTest {
-    private static File file;
 
     @Before
     public void setUp() throws Exception {
-        file = new File("src/test/resources/sample1.txt");
     }
 
     @Test
     public void readFileContents() {
-//        System.out.println(fileContent);
+        File file = new File("src/test/resources/sample1.txt");
         String fileContent = readFromInputStream(file).toString();
         Assert.assertFalse(StringUtils.isBlank(fileContent));
     }

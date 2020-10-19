@@ -3,20 +3,11 @@ package bowling.scoringapp.validate.input.impl;
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.utils.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ValidateInputTenPinBowlFile extends ValidateInputFile {
-
-    @Override
-    public boolean validateInput(String[] lines) {
-        // Validate if there's empty lines in file
-        validateEmptyLines(lines);
-        // Validate throws count by player
-        validateTurnsCountPerPlayer(lines);
-        // Validate results by player
-        validatePlayerResults(lines);
-        return true;
-    }
 
     @Override
     public Boolean validateEmptyLines(String[] lines) {
@@ -38,7 +29,7 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         playersResults = DataTransformation.transformResultsIntToMap(lines);
 
         // Count turns by player
-        getTurnsByPlayer();
+        playersTurns = DataTransformation.getTurnsIntByPlayer(playersResults);
 
         // Validate an exact number of turns
         for (Map.Entry<String, Integer> entry : playersTurns.entrySet()) {
@@ -69,40 +60,11 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         return true;
     }
 
-    private Map<String, Integer> getTurnsByPlayer() {
-        int counter;
-        int result1;
-        for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                String player = entry.getKey();
-                result1 = entry.getValue().get(i);
-                if (result1 == 10) {
-                    counter = playersTurns.get(player) == null ? 0 : playersTurns.get(player);
-                    counter++;
-                    playersTurns.put(player, counter);
-                } else {
-                    if ((i + 1) < entry.getValue().size() - 1) {
-                        counter = playersTurns.get(player) == null ? 0 : playersTurns.get(player);
-                        counter++;
-                        playersTurns.put(player, counter);
-                        // Add one to skip next line on file
-                        i = i + 1;
-                    } else {
-                        counter = playersTurns.get(player) == null ? 0 : playersTurns.get(player);
-                        counter++;
-                        playersTurns.put(player, counter);
-                    }
-                }
-            }
-        }
-        return playersTurns;
-    }
-
     public Boolean validatePlayerResults(String[] lines) {
         // Get results by player
         playersResults = DataTransformation.transformResultsIntToMap(lines);
         // Get number of turns by player
-        playersTurns = getTurnsByPlayer();
+        playersTurns = DataTransformation.getTurnsIntByPlayer(playersResults);
         // Get results by frame and by player
         playersResultsByFrame = getResultsByFrameByPlayer();
 
@@ -197,10 +159,4 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         }
         return playersResultsByFrame;
     }
-
-    @Override
-    public Boolean validateScore(String input) {
-        return false;
-    }
-
 }

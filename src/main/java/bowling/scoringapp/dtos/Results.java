@@ -2,18 +2,20 @@ package bowling.scoringapp.dtos;
 
 import lombok.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @ToString
 public class Results {
-//    @Getter
-//    @Setter
-//    @NonNull
-//    String playerName;
+    @Getter
+    @Setter
+    @NonNull
+    List<String> pinFalls;
 
     @Getter
     @Setter
     @NonNull
-    String[] pinFalls;
+    Character mark;
 
     @Getter
     @Setter

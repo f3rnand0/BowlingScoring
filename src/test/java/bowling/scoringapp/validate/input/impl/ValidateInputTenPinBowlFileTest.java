@@ -2,7 +2,6 @@ package bowling.scoringapp.validate.input.impl;
 
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.utils.Constants;
-import bowling.utils.DataTransformation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

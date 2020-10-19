@@ -14,19 +14,11 @@ public abstract class ValidateInputFile {
     @Getter
     protected Map<String, List<Integer>> playersResultsByFrame = new HashMap<>();
 
-    public boolean validateInput(String[] lines){
-        return false;
-    }
-
     public Boolean validateTurnsCountPerPlayer(String[] lines) {
         return false;
     }
 
     public Boolean validatePlayerResults(String[] lines) {
-        return false;
-    }
-
-    public Boolean validateScore(String input) {
         return false;
     }
 

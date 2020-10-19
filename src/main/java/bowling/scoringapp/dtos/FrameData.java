@@ -2,23 +2,25 @@ package bowling.scoringapp.dtos;
 
 import lombok.*;
 
+import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class FrameData extends BaseObject {
+public class FrameData {
     @Getter
     @Setter
     @NonNull
-    Map<String, Results> results;
+    Integer frame;
 
     @Getter
     @Setter
     @NonNull
-    String mark;
+    String player;
 
-    public FrameData(int frame, Map<String, Results> results, String mark) {
-        this.frame = frame;
-        this.results = results;
-        this.mark = mark;
-    }
+    @Getter
+    @Setter
+    @NonNull
+    Results results;
 }

@@ -35,6 +35,9 @@
                     <includes>
                         <include>**/*.java</include>
                     </includes>
+                    <!-- <configuration>
+                        <groups>com.test.annotation.type.IntegrationTest</groups>
+                    </configuration>-->
                 </configuration>
             </plugin>
         </plugins>
