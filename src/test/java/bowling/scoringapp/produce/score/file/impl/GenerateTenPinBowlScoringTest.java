@@ -36,13 +36,13 @@ public class GenerateTenPinBowlScoringTest {
         Map<String,Results> playersResults10 = new HashMap<>();
         playersResults1.put("A", new Results(new String[]{"2", "8"}));
         playersResults1.put("B", new Results(new String[]{"3", "7"}));
-        FrameData s1 = new FrameData(playersResults1, 1, "");
+        FrameData s1 = new FrameData(1, playersResults1, "");
         playersResults2.put("A", new Results(new String[]{"10", ""}));
         playersResults2.put("B", new Results(new String[]{"6", "3"}));
-        FrameData s2 = new FrameData(playersResults2, 2, "");
+        FrameData s2 = new FrameData(2, playersResults2, "");
         playersResults3.put("A", new Results(new String[]{"10", "", "2", "F"}));
         playersResults3.put("B", new Results(new String[]{"", "10"}));
-        FrameData s3 = new FrameData(playersResults3, 3, "");
+        FrameData s3 = new FrameData(3, playersResults3,"");
         allResults = new FrameData[]{s1, s2, s3};
     }
 
@@ -61,9 +61,9 @@ public class GenerateTenPinBowlScoringTest {
         int score = 0;
         for (int i = 0; i < allResults.length; i++) {
             // Get result of frame
-            String[] frameResults = allResults[i].getResults().get(playerA).getPinfalls();
-            int frameResult1 = DataValidation.getInteger(frameResults[0]);
-            int frameResult2 = DataValidation.getInteger(frameResults[1]);
+            String[] frameResults = allResults[i].getResults().get(playerA).getPinFalls();
+            int frameResult1 = DataValidation.getResultAsInteger(frameResults[0]);
+            int frameResult2 = DataValidation.getResultAsInteger(frameResults[1]);
             System.out.println("frameResult1: " +frameResult1);
             System.out.println("frameResult2: " +frameResult2);
 
@@ -91,13 +91,13 @@ public class GenerateTenPinBowlScoringTest {
         int bonus = 0;
         // On all frames except last one
         if (frame < allResults.length - 1) {
-            String[] frameResults = allResults[frame+1].getResults().get(player).getPinfalls();
-            bonus = DataValidation.getInteger(frameResults[0]);
+            String[] frameResults = allResults[frame+1].getResults().get(player).getPinFalls();
+            bonus = DataValidation.getResultAsInteger(frameResults[0]);
         }
         // On last frame
         else {
-            String lastBonus = allResults[frame].getResults().get(player).getPinfalls()[2];
-            bonus = DataValidation.getInteger(lastBonus);
+            String lastBonus = allResults[frame].getResults().get(player).getPinFalls()[2];
+            bonus = DataValidation.getResultAsInteger(lastBonus);
         }
         return bonus;
     }
@@ -106,28 +106,28 @@ public class GenerateTenPinBowlScoringTest {
         int bonus = 0;
         // On first frames, except last two
         if ((frame + 1) < (allResults.length - 1)) {
-            String[] frameResults = allResults[frame+1].getResults().get(player).getPinfalls();
-            bonus = DataValidation.getInteger(frameResults[0]);
-            frameResults = allResults[frame+2].getResults().get(player).getPinfalls();
-            bonus += DataValidation.getInteger(frameResults[0]);
+            String[] frameResults = allResults[frame+1].getResults().get(player).getPinFalls();
+            bonus = DataValidation.getResultAsInteger(frameResults[0]);
+            frameResults = allResults[frame+2].getResults().get(player).getPinFalls();
+            bonus += DataValidation.getResultAsInteger(frameResults[0]);
         }
         // On penultimate frame
         else if ((frame + 1) == (allResults.length - 1)) {
-            String[] frameResults = allResults[frame + 1].getResults().get(player).getPinfalls();
-            int firstValue = DataValidation.getInteger(frameResults[0]);
-            int secondValue = DataValidation.getInteger(frameResults[1]);
+            String[] frameResults = allResults[frame + 1].getResults().get(player).getPinFalls();
+            int firstValue = DataValidation.getResultAsInteger(frameResults[0]);
+            int secondValue = DataValidation.getResultAsInteger(frameResults[1]);
             // When there was strike on last frame
             if (firstValue == 10)
-                bonus = DataValidation.getInteger(frameResults[0]) + DataValidation.getInteger(frameResults[2]);
+                bonus = DataValidation.getResultAsInteger(frameResults[0]) + DataValidation.getResultAsInteger(frameResults[2]);
             // When there was spare or some pinfalls on last frame
             else
                 bonus = firstValue + secondValue;
         }
         // On last frame
         else {
-            String result1 = allResults[frame].getResults().get(player).getPinfalls()[2];
-            String result2 = allResults[frame].getResults().get(player).getPinfalls()[3];
-            bonus = DataValidation.getInteger(result1) + DataValidation.getInteger(result2);
+            String result1 = allResults[frame].getResults().get(player).getPinFalls()[2];
+            String result2 = allResults[frame].getResults().get(player).getPinFalls()[3];
+            bonus = DataValidation.getResultAsInteger(result1) + DataValidation.getResultAsInteger(result2);
         }
         return bonus;
     }

@@ -4,9 +4,8 @@ import lombok.*;
 
 import java.util.Map;
 
-@RequiredArgsConstructor
 @ToString
-public class FrameData {
+public class FrameData extends BaseObject {
     @Getter
     @Setter
     @NonNull
@@ -15,10 +14,11 @@ public class FrameData {
     @Getter
     @Setter
     @NonNull
-    Integer frame;
-
-    @Getter
-    @Setter
-    @NonNull
     String mark;
+
+    public FrameData(int frame, Map<String, Results> results, String mark) {
+        this.frame = frame;
+        this.results = results;
+        this.mark = mark;
+    }
 }

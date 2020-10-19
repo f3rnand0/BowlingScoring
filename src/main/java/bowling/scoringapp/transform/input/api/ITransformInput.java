@@ -1,5 +1,7 @@
 package bowling.scoringapp.transform.input.api;
 
+import bowling.scoringapp.dtos.BaseObject;
+
 public interface ITransformInput {
-    String transformInputByFrameByPlayer(String[] lines);
+    <E extends BaseObject> E[] transformInputByFrameByPlayer(String[] lines);
 }

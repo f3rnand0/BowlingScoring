@@ -64,8 +64,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
         validate.validatePlayerResults(contents);
-        Map<String, List<Integer>> playerResults = validate.getPlayersResults();
-        for (Map.Entry<String, List<Integer>> entry : playerResults.entrySet()) {
+        Map<String, List<Integer>> playersResults = validate.getPlayersResults();
+        for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum: entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }
@@ -81,8 +81,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
         validate.validatePlayerResults(contents);
-        Map<String, List<Integer>> playerResults = validate.getPlayersResults();
-        for (Map.Entry<String, List<Integer>> entry : playerResults.entrySet()) {
+        Map<String, List<Integer>> playersResults = validate.getPlayersResults();
+        for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum: entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }
@@ -98,8 +98,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t3", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
         validate.validatePlayerResults(contents);
-        Map<String, List<Integer>> playerResults = validate.getPlayersResults();
-        for (Map.Entry<String, List<Integer>> entry : playerResults.entrySet()) {
+        Map<String, List<Integer>> playersResults = validate.getPlayersResults();
+        for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum: entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }

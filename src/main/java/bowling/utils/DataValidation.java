@@ -4,7 +4,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 public class DataValidation {
 
-    public static int getInteger(String text) {
+    public static int getResultAsInteger(String text) {
         if (NumberUtils.isParsable(text)) {
             return Integer.valueOf(text);
         }
@@ -17,7 +17,7 @@ public class DataValidation {
         }
     }
 
-    public static int getActualInteger(String text) {
+    public static int getResultAsActualInteger(String text) {
         if (NumberUtils.isParsable(text)) {
             return Integer.valueOf(text);
         }
@@ -30,19 +30,15 @@ public class DataValidation {
         }
     }
 
-    public static int isCorrectResult(String text) {
+    public static String getResultAsString(String text) {
         if (NumberUtils.isParsable(text)) {
-            int value = Integer.valueOf(text);
-            if (Integer.valueOf(text) >= 0 || Integer.valueOf(text) <= 10)
-                return value;
-            else
-                return -1;
+            return text;
         }
         else {
             if (text.equals("F"))
-                return 0;
+                return text;
             else
-                return -1;
+                return Constants.INTEGER_FOR_CHAR_IDENTIFIER.toString();
         }
     }
 

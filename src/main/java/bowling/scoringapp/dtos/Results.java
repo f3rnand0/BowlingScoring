@@ -13,7 +13,7 @@ public class Results {
     @Getter
     @Setter
     @NonNull
-    String[] pinfalls;
+    String[] pinFalls;
 
     @Getter
     @Setter

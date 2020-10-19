@@ -2,9 +2,6 @@ package bowling.scoringapp.validate.input.impl;
 
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.utils.*;
-import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.*;
 
@@ -30,6 +27,7 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         return true;
     }
 
+    @Override
     public Boolean validateTurnsCountPerPlayer(String[] lines) {
         String player;
         int resultInt1, resultInt2;
@@ -37,10 +35,10 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         boolean isPositiveInt1, isPositiveInt2;
 
         // Get results by player
-        playersResults = DataTransformation.transformResultsToMap(lines);
+        playersResults = DataTransformation.transformResultsIntToMap(lines);
 
         // Count turns by player
-        checkTurnsByPlayer();
+        getTurnsByPlayer();
 
         // Validate an exact number of turns
         for (Map.Entry<String, Integer> entry : playersTurns.entrySet()) {
@@ -71,7 +69,7 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         return true;
     }
 
-    private Map<String, Integer> checkTurnsByPlayer() {
+    private Map<String, Integer> getTurnsByPlayer() {
         int counter;
         int result1;
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
@@ -102,9 +100,9 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
 
     public Boolean validatePlayerResults(String[] lines) {
         // Get results by player
-        playersResults = DataTransformation.transformResultsToMap(lines);
+        playersResults = DataTransformation.transformResultsIntToMap(lines);
         // Get number of turns by player
-        playersTurns = checkTurnsByPlayer();
+        playersTurns = getTurnsByPlayer();
         // Get results by frame and by player
         playersResultsByFrame = getResultsByFrameByPlayer();
 
