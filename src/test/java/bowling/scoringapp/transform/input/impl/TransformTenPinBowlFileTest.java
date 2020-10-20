@@ -1,21 +1,17 @@
 package bowling.scoringapp.transform.input.impl;
 
 import bowling.scoringapp.dtos.FrameData;
-import bowling.scoringapp.dtos.Results;
 import bowling.scoringapp.transform.input.api.ITransformInput;
-import bowling.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 public class TransformTenPinBowlFileTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test

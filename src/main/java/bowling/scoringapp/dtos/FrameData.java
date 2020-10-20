@@ -2,9 +2,6 @@ package bowling.scoringapp.dtos;
 
 import lombok.*;
 
-import java.util.List;
-import java.util.Map;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString

@@ -19,11 +19,11 @@ public class GenerateTenPinBowlScoringFileTest {
     @Test
     public void readFileContents() {
         File file = new File("src/test/resources/sample1.txt");
-        String fileContent = readFromInputStream(file).toString();
+        String fileContent = readFromInputStream(file);
         Assert.assertFalse(StringUtils.isBlank(fileContent));
     }
 
-    private static String readFromInputStream(File file) {
+    protected String readFromInputStream(File file) {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = null;
         try {

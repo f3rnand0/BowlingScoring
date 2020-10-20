@@ -7,11 +7,10 @@ public class DataValidation {
     public static int getResultAsInteger(String text) {
         if (NumberUtils.isParsable(text)) {
             return Integer.valueOf(text);
-        }
-        else {
+        } else {
             if (text.equals("F"))
                 return 0;
-            // When it's an empty string (strike)
+                // When it's an empty string (strike)
             else
                 return -1;
         }
@@ -20,8 +19,7 @@ public class DataValidation {
     public static int getResultAsActualInteger(String text) {
         if (NumberUtils.isParsable(text)) {
             return Integer.valueOf(text);
-        }
-        else {
+        } else {
             if (text.equals("F"))
                 return 0;
                 // When it's an empty string (strike)
@@ -33,8 +31,7 @@ public class DataValidation {
     public static String getResultAsString(String text) {
         if (NumberUtils.isParsable(text)) {
             return text;
-        }
-        else {
+        } else {
             if (text.equals("F"))
                 return text;
             else

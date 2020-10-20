@@ -26,10 +26,10 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         boolean isPositiveInt1, isPositiveInt2;
 
         // Get results by player
-        playersResults = DataTransformation.transformResultsIntToMap(lines);
+        playersResults = DataTransformation.transformResultsToMap(lines);
 
         // Count turns by player
-        playersTurns = DataTransformation.getTurnsIntByPlayer(playersResults);
+        playersTurns = DataTransformation.getTurnsByPlayer(playersResults);
 
         // Validate an exact number of turns
         for (Map.Entry<String, Integer> entry : playersTurns.entrySet()) {
@@ -62,9 +62,9 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
 
     public Boolean validatePlayerResults(String[] lines) {
         // Get results by player
-        playersResults = DataTransformation.transformResultsIntToMap(lines);
+        playersResults = DataTransformation.transformResultsToMap(lines);
         // Get number of turns by player
-        playersTurns = DataTransformation.getTurnsIntByPlayer(playersResults);
+        playersTurns = DataTransformation.getTurnsByPlayer(playersResults);
         // Get results by frame and by player
         playersResultsByFrame = getResultsByFrameByPlayer();
 
@@ -83,7 +83,7 @@ public class ValidateInputTenPinBowlFile extends ValidateInputFile {
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             int counter = 0;
             String player = entry.getKey();
-            List<Integer> playerResultsByFrame = new ArrayList<Integer>();
+            List<Integer> playerResultsByFrame = new ArrayList<>();
             for (int i = 0; i < entry.getValue().size(); i++) {
                 result1 = entry.getValue().get(i);
                 if (!DataValidation.isPositiveInteger(result1)) {

@@ -1,7 +1,7 @@
-package bowling.scoringapp.produce.score.file.api;
+package bowling.scoringapp.generate.score.api;
 
 import bowling.scoringapp.dtos.FrameData;
 
-public interface IProduceScoring {
+public interface IGenerateScoring {
     FrameData[][] calculateScores(FrameData[][] allResults);
 }

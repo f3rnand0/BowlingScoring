@@ -1,26 +1,21 @@
-package bowling.scoringapp.produce.score.file.impl;
+package bowling.scoringapp.generate.score.impl;
 
 import bowling.scoringapp.dtos.FrameData;
-import bowling.scoringapp.produce.score.file.api.IProduceScoring;
-import bowling.utils.Constants;
+import bowling.scoringapp.generate.score.api.IGenerateScoring;
 import bowling.utils.DataValidation;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
-public class ProduceTenPinBowlScoring implements IProduceScoring {
+public class GenerateTenPinBowlScoring implements IGenerateScoring {
 
     @Override
     public FrameData[][] calculateScores(FrameData[][] allFrames) {
-        String nextResult1, nextResult2, nextResult3;
-        int nextResultInt1, nextResultInt2;
+        String nextResult1, nextResult2;
+        int nextResultInt1;
         for (int i = 0; i < allFrames.length; i++) {
             int score = 0;
             for (int j = 0; j < allFrames[i].length; j++) {
-                String player = allFrames[i][j].getPlayer();
                 Character mark = allFrames[i][j].getResults().getMark();
-                int frame = allFrames[i][j].getFrame();
                 // When normal turn
                 if (mark.equals('#')) {
                     score += calculateTotalResult(allFrames[i][j].getResults().getPinFalls());
@@ -47,7 +42,6 @@ public class ProduceTenPinBowlScoring implements IProduceScoring {
                         // When strike happens on next throw
                         if (DataValidation.getResultAsInteger(nextResult1) == 10) {
                             nextResult2 = allFrames[i][j + 2].getResults().getPinFalls().get(0);
-//                            int nextResultInt2 = DataValidation.getResultAsActualInteger(nextResult2);
                             score += 10 + DataValidation.getResultAsInteger(nextResult1)
                                     + DataValidation.getResultAsActualInteger(nextResult2);
                             allFrames[i][j].getResults().setScore(score);
@@ -62,17 +56,12 @@ public class ProduceTenPinBowlScoring implements IProduceScoring {
                     }
                     // Get results from next two throws on penultimate frame
                     else if ((j + 1) == allFrames[i].length - 1) {
-                        int bonus = 0;
+                        int bonus;
                         nextResult1 = allFrames[i][j + 1].getResults().getPinFalls().get(0);
                         nextResult2 = allFrames[i][j + 1].getResults().getPinFalls().get(1);
-                        nextResult3 = allFrames[i][j + 1].getResults().getPinFalls().get(2);
                         nextResultInt1 = DataValidation.getResultAsInteger(nextResult1);
-                        nextResultInt2 = DataValidation.getResultAsInteger(nextResult3);
                         // When there was strike on last frame
-//                        if (nextResultInt1 == 10)
-                            bonus = nextResultInt1 + DataValidation.getResultAsInteger(nextResult2);
-//                        else
-//                            bonus = nextResultInt1 + DataValidation.getResultAsInteger(nextResult3);
+                        bonus = nextResultInt1 + DataValidation.getResultAsInteger(nextResult2);
                         score += 10 + bonus;
                         allFrames[i][j].getResults().setScore(score);
                     }
@@ -85,7 +74,6 @@ public class ProduceTenPinBowlScoring implements IProduceScoring {
                         allFrames[i][j].getResults().setScore(score);
                     }
                 }
-
             }
         }
         return allFrames;

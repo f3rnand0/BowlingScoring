@@ -2,6 +2,7 @@ package bowling.scoringapp.validate.input.impl;
 
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.utils.Constants;
+import bowling.utils.DataTransformation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class ValidateInputTenPinBowlFileTest {
     }
 
     @Test
-    // When all results and theri sums are correct
+    // When all results and their sums are correct
     public void validatePlayerResults1() {
         String[] contents = {"Jeff\t10", "John\t3", "John\t7", "Jeff\t7", "Jeff\t3", "John\t6", "John\t3", "Jeff\t9", "Jeff\t0",
                 "John\t10", "Jeff\t10", "John\t8", "John\t1", "Jeff\t0", "Jeff\t8", "John\t10", "Jeff\t8", "Jeff\t2",
@@ -65,7 +66,7 @@ public class ValidateInputTenPinBowlFileTest {
         validate.validatePlayerResults(contents);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
-            for (Integer sum: entry.getValue()) {
+            for (Integer sum : entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }
         }
@@ -82,7 +83,7 @@ public class ValidateInputTenPinBowlFileTest {
         validate.validatePlayerResults(contents);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
-            for (Integer sum: entry.getValue()) {
+            for (Integer sum : entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }
         }
@@ -99,7 +100,7 @@ public class ValidateInputTenPinBowlFileTest {
         validate.validatePlayerResults(contents);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
-            for (Integer sum: entry.getValue()) {
+            for (Integer sum : entry.getValue()) {
                 Assert.assertTrue(0 <= sum && sum <= 10);
             }
         }
