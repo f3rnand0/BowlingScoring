@@ -2,7 +2,6 @@ package bowling.scoringapp.validate.input.impl;
 
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.utils.Constants;
-import bowling.utils.DataTransformation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +55,16 @@ public class ValidateInputTenPinBowlFileTest {
     }
 
     @Test
+    // When turns are all 10, and there's no spare or strike on last frame
+    public void validateTurnsCountPerPlayer4() {
+        String[] contents = {"Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0",
+                "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0", "Jeff\t0",
+                "Jeff\t0", "Jeff\t0", "Jeff\t2", "Jeff\t0",};
+        ValidateInputFile validate = new ValidateInputTenPinBowlFile();
+        validate.validateTurnsCountPerPlayer(contents);
+    }
+
+    @Test
     // When all results and their sums are correct
     public void validatePlayerResults1() {
         String[] contents = {"Jeff\t10", "John\t3", "John\t7", "Jeff\t7", "Jeff\t3", "John\t6", "John\t3", "Jeff\t9", "Jeff\t0",
@@ -63,7 +72,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
-        validate.validatePlayerResults(contents);
+        validate.validateTurnsCountPerPlayer(contents);
+        validate.validatePlayerResults(contents, false);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum : entry.getValue()) {
@@ -80,7 +90,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
-        validate.validatePlayerResults(contents);
+        validate.validateTurnsCountPerPlayer(contents);
+        validate.validatePlayerResults(contents, false);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum : entry.getValue()) {
@@ -97,7 +108,8 @@ public class ValidateInputTenPinBowlFileTest {
                 "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
                 "John\t4", "John\t4", "Jeff\t8", "Jeff\t3", "Jeff\t8", "John\t10", "John\t9", "John\t0"};
         ValidateInputFile validate = new ValidateInputTenPinBowlFile();
-        validate.validatePlayerResults(contents);
+        validate.validateTurnsCountPerPlayer(contents);
+        validate.validatePlayerResults(contents, false);
         Map<String, List<Integer>> playersResults = validate.getPlayersResults();
         for (Map.Entry<String, List<Integer>> entry : playersResults.entrySet()) {
             for (Integer sum : entry.getValue()) {
