@@ -3,38 +3,39 @@ package bowling.scoringapp.main;
 import bowling.scoringapp.dtos.FrameData;
 import bowling.scoringapp.generate.score.api.IGenerateScoring;
 import bowling.scoringapp.generate.score.impl.GenerateTenPinBowlScoring;
-import bowling.scoringapp.produce.score.file.api.IProduceScoringFile;
-import bowling.scoringapp.produce.score.file.impl.ProduceTenPinBowlingScoringFile;
+import bowling.scoringapp.produce.score.file.api.IProduceScoringOutput;
+import bowling.scoringapp.produce.score.file.impl.ProduceTenPinBowlingScoringOutput;
 import bowling.scoringapp.transform.input.api.ITransformInput;
 import bowling.scoringapp.transform.input.impl.TransformTenPinBowlFile;
 import bowling.scoringapp.validate.input.api.ValidateInputFile;
 import bowling.scoringapp.validate.input.impl.ValidateInputTenPinBowlFile;
-import bowling.utils.Constants;
+import bowling.utils.api.Constants;
+import bowling.utils.api.IDataTransformation;
+import bowling.utils.api.IDataValidation;
+import bowling.utils.api.IInputValidation;
+import bowling.utils.impl.DataTransformation;
+import bowling.utils.impl.DataValidation;
+import bowling.utils.impl.InputValidation;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
-public class GenerateTenPinBowlScoringFile {
+public class GenerateTenPinBowlScoringOutput {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String fileName = in.next();
-        File file = new File(fileName);
+        File file = new File(args[0]);
 
-        GenerateTenPinBowlScoringFile generateScoringFile = new GenerateTenPinBowlScoringFile();
+        GenerateTenPinBowlScoringOutput generateScoringOutput = new GenerateTenPinBowlScoringOutput();
         // Read file and store data into lines array
-        String fileContent = generateScoringFile.readFromInputStream(file);
+        String fileContent = generateScoringOutput.readFromInputStream(file);
         String[] lines = fileContent.split(Constants.FILE_DELIMITER);
         // Validate contents of file
-        generateScoringFile.validateInputFile(lines);
+        generateScoringOutput.validateInputFile(lines);
         // Transform input into objects and generate scores
-        FrameData[][] allFrames = generateScoringFile.produceScoring(lines);
-        // Generate scoring file
-        String scoringFilePath = generateScoringFile.createScoringFile(allFrames, file.getAbsolutePath());
-        // Confirm process was successful
-        System.out.println("Successfuly created scoring file: " + scoringFilePath);
+        FrameData[][] allFrames = generateScoringOutput.produceScoring(lines);
+        // Generate scoring output
+        generateScoringOutput.createScoringOutput(allFrames);
     }
 
     public String readFromInputStream(File file) {
@@ -61,7 +62,10 @@ public class GenerateTenPinBowlScoringFile {
     }
 
     public void validateInputFile(String[] lines) {
-        ValidateInputFile validate = new ValidateInputTenPinBowlFile();
+        IInputValidation inputValidation = new InputValidation();
+        IDataValidation dataValidation = new DataValidation();
+        IDataTransformation dataTransformation = new DataTransformation(dataValidation);
+        ValidateInputFile validate = new ValidateInputTenPinBowlFile(inputValidation, dataTransformation, dataValidation);
         // Validate if there's empty lines in file
         validate.validateEmptyLines(lines);
         // Validate throws count by player
@@ -71,14 +75,20 @@ public class GenerateTenPinBowlScoringFile {
     }
 
     public FrameData[][] produceScoring(String[] lines) {
-        ITransformInput transform = new TransformTenPinBowlFile();
-        FrameData[][] allFrames = transform.transformInputByFrameByPlayer(lines);
-        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring();
+        IDataValidation dataValidation = new DataValidation();
+        IDataTransformation dataTransformation = new DataTransformation(dataValidation);
+        ITransformInput transformInput = new TransformTenPinBowlFile(dataTransformation, dataValidation);
+        FrameData[][] allFrames = transformInput.transformInputByFrameByPlayer(lines);
+        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring(dataValidation);
         return produceScoring.calculateScores(allFrames);
     }
 
-    public String createScoringFile(FrameData[][] allFrames, String inputFilePath) {
-        IProduceScoringFile produceScoringFile = new ProduceTenPinBowlingScoringFile();
-        return produceScoringFile.produceScoringFile(allFrames, inputFilePath);
+    public String[] createScoringOutput(FrameData[][] allFrames) {
+        IProduceScoringOutput produceScoringOutput = new ProduceTenPinBowlingScoringOutput();
+        String[] outputLines = produceScoringOutput.produceScoringOutput(allFrames);
+        for (String line : outputLines) {
+            System.out.println(line);
+        }
+        return outputLines;
     }
 }

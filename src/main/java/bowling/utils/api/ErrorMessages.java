@@ -1,4 +1,4 @@
-package bowling.utils;
+package bowling.utils.api;
 
 public class ErrorMessages {
     public static final String FILE_EMPTY_LINE = "ERROR!!! Scoring file has empty lines";

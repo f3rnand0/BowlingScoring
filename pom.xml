@@ -49,7 +49,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>bowling.scoringapp.main.GenerateTenPinBowlScoringFile</mainClass>
+                            <mainClass>bowling.scoringapp.main.GenerateTenPinBowlScoringOutput</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -67,7 +67,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>bowling.scoringapp.main.GenerateTenPinBowlScoringFile</mainClass>
+                            <mainClass>bowling.scoringapp.main.GenerateTenPinBowlScoringOutput</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

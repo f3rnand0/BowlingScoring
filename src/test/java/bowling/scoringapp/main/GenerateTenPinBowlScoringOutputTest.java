@@ -10,10 +10,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GenerateTenPinBowlScoringFileTest {
+public class GenerateTenPinBowlScoringOutputTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test

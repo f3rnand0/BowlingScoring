@@ -5,13 +5,15 @@ import bowling.scoringapp.generate.score.api.IGenerateScoring;
 import bowling.scoringapp.generate.score.impl.GenerateTenPinBowlScoring;
 import bowling.scoringapp.transform.input.api.ITransformInput;
 import bowling.scoringapp.transform.input.impl.TransformTenPinBowlFile;
+import bowling.utils.api.IDataTransformation;
+import bowling.utils.api.IDataValidation;
+import bowling.utils.impl.DataTransformation;
+import bowling.utils.impl.DataValidation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class GenerateTenPinBowlScoringTest {
-    private static final int expectedScore = 54;
-    private static FrameData[] allResults;
 
     public GenerateTenPinBowlScoringTest() {
     }
@@ -21,17 +23,19 @@ public class GenerateTenPinBowlScoringTest {
     }
 
     @Test
+    // When strike and spare happens on last frames
     public void calculateScores1() {
         String[] contents = {"Jeff\t10", "John\t3", "John\t7", "Jeff\t7", "Jeff\t3", "John\t6", "John\t3", "Jeff\t9", "Jeff\t0",
                 "John\t10", "Jeff\t10", "John\t8", "John\t1", "Jeff\t0", "Jeff\t8", "John\t10", "Jeff\t8", "Jeff\t2",
                 "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
-                "John\t4", "John\t4", "Jeff\t10", "Jeff\t8", "Jeff\t1", "John\t10", "John\t9", "John\t0"};
-        ITransformInput transformInput = new TransformTenPinBowlFile();
+                "John\t4", "John\t4", "Jeff\t8", "Jeff\t2", "Jeff\t1", "John\t10", "John\t9", "John\t0"};
+        IDataValidation dataValidation = new DataValidation();
+        IDataTransformation dataTransformation = new DataTransformation(dataValidation);
+        ITransformInput transformInput = new TransformTenPinBowlFile(dataTransformation, dataValidation);
         FrameData[][] allFrames = transformInput.transformInputByFrameByPlayer(contents);
-        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring();
+        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring(dataValidation);
         allFrames = produceScoring.calculateScores(allFrames);
-
-        Assert.assertEquals(167, allFrames[0][9].getResults().getScore().intValue());
+        Assert.assertEquals(149, allFrames[0][9].getResults().getScore().intValue());
         Assert.assertEquals(151, allFrames[1][9].getResults().getScore().intValue());
 
 //        for (int i = 0; i < allFrames.length; i++) {
@@ -49,18 +53,18 @@ public class GenerateTenPinBowlScoringTest {
     }
 
     @Test
+    // When normal throw happens on last frame
     public void calculateScores2() {
-        String[] contents = {"Jeff\t10", "John\t3", "John\t7", "Jeff\t7", "Jeff\t3", "John\t6", "John\t3", "Jeff\t9", "Jeff\t0",
-                "John\t10", "Jeff\t10", "John\t8", "John\t1", "Jeff\t0", "Jeff\t8", "John\t10", "Jeff\t8", "Jeff\t2",
-                "John\t10", "Jeff\tF", "Jeff\t6", "John\t9", "John\t0", "Jeff\t10", "John\t7", "John\t3", "Jeff\t10",
-                "John\t4", "John\t6", "Jeff\t8", "Jeff\t2", "Jeff\t1", "John\t10", "John\t9", "John\t0"};
-        ITransformInput transformInput = new TransformTenPinBowlFile();
+        String[] contents = {"Jeff\t10", "Jeff\t7", "Jeff\t3", "Jeff\t9", "Jeff\t0", "Jeff\t10", "Jeff\t0", "Jeff\t8",
+                "Jeff\t8", "Jeff\t2", "Jeff\tF", "Jeff\t6", "Jeff\t10", "Jeff\t10", "Jeff\t8", "Jeff\t1"};
+        IDataValidation dataValidation = new DataValidation();
+        IDataTransformation dataTransformation = new DataTransformation(dataValidation);
+        ITransformInput transformInput = new TransformTenPinBowlFile(dataTransformation, dataValidation);
         FrameData[][] allFrames = transformInput.transformInputByFrameByPlayer(contents);
-        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring();
+        IGenerateScoring produceScoring = new GenerateTenPinBowlScoring(dataValidation);
         allFrames = produceScoring.calculateScores(allFrames);
 
-        Assert.assertEquals(149, allFrames[0][9].getResults().getScore().intValue());
-        Assert.assertEquals(163, allFrames[1][9].getResults().getScore().intValue());
+        Assert.assertEquals(146, allFrames[0][9].getResults().getScore().intValue());
     }
 
 }

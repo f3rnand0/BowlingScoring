@@ -8,21 +8,18 @@ import java.util.Map;
 
 public abstract class ValidateInputFile {
     @Getter
-    protected Map<String, List<Integer>> playersResults = new HashMap<>();
+    protected Map<String, List<String>> playersResults = new HashMap<>();
     @Getter
     protected Map<String, Integer> playersTurns = new HashMap<>();
     @Getter
     protected Map<String, List<Integer>> playersResultsByFrame = new HashMap<>();
 
-    public Boolean validateTurnsCountPerPlayer(String[] lines) {
-        return false;
+    public void validateTurnsCountPerPlayer(String[] lines) {
     }
 
-    public Boolean validatePlayerResults(String[] lines) {
-        return false;
+    public void validatePlayerResults(String[] lines) {
     }
 
-    public Boolean validateEmptyLines(String[] lines) {
-        return false;
+    public void validateEmptyLines(String[] lines) {
     }
 }

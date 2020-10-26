@@ -1,30 +1,17 @@
 package bowling.scoringapp.produce.score.file.impl;
 
 import bowling.scoringapp.dtos.FrameData;
-import bowling.scoringapp.produce.score.file.api.IProduceScoringFile;
-import bowling.utils.Constants;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import bowling.scoringapp.produce.score.file.api.IProduceScoringOutput;
+import bowling.utils.api.Constants;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
-public class ProduceTenPinBowlingScoringFile implements IProduceScoringFile {
+public class ProduceTenPinBowlingScoringOutput implements IProduceScoringOutput {
 
     @Override
-    public String produceScoringFile(FrameData[][] allFrames, String inputFilePath) {
-        String[] lines = createScoringFile(allFrames);
-        File file = new File(inputFilePath + ".rpt");
-        try {
-            FileUtils.writeLines(file, Arrays.asList(lines));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file.getAbsolutePath();
+    public String[] produceScoringOutput(FrameData[][] allFrames) {
+        return createScoringOutput(allFrames);
     }
 
-    private String[] createScoringFile(FrameData[][] allFrames) {
+    private String[] createScoringOutput(FrameData[][] allFrames) {
         String[] lines = new String[(allFrames.length * 3) + 1];
         StringBuilder builderLine1 = new StringBuilder();
         StringBuilder builderLine2 = new StringBuilder();
@@ -40,27 +27,22 @@ public class ProduceTenPinBowlingScoringFile implements IProduceScoringFile {
         String result1, result2, result3;
         Character mark;
         int score, k = 1;
-        for (int i = 0; i < allFrames.length; i++) {
-            builderLine1.append(allFrames[i][0].getPlayer());
+        for (FrameData[] allFrame : allFrames) {
+            builderLine1.append(allFrame[0].getPlayer());
             lines[k] = builderLine1.toString();
             k++;
             builderLine1.setLength(0);
             builderLine1.append("Pinfalls");
             builderLine2.append("Score ");
-            for (int j = 0; j < allFrames[i].length; j++) {
+            for (int j = 0; j < allFrame.length; j++) {
                 builderLine2.append(Constants.FILE_TAB_DELIMITER);
-                score = allFrames[i][j].getResults().getScore();
-                if (String.valueOf(score).length() == 3) {
-                    builderLine2.append(StringUtils.repeat(' ', Constants.FILE_TAB_DELIMITER.length() - 1));
-                    builderLine2.append(score);
-                } else {
-                    builderLine2.append(Constants.FILE_TAB_DELIMITER);
-                    builderLine2.append(score);
-                }
-                mark = allFrames[i][j].getResults().getMark();
-                if (j < allFrames[i].length - 1) {
-                    result1 = allFrames[i][j].getResults().getPinFalls().get(0);
-                    result2 = allFrames[i][j].getResults().getPinFalls().get(1);
+                score = allFrame[j].getResults().getScore();
+                builderLine2.append(Constants.FILE_TAB_DELIMITER);
+                builderLine2.append(score);
+                mark = allFrame[j].getResults().getMark();
+                if (j < allFrame.length - 1) {
+                    result1 = allFrame[j].getResults().getPinFalls().get(0);
+                    result2 = allFrame[j].getResults().getPinFalls().get(1);
                     // When normal result
                     if (mark.equals('#')) {
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
@@ -83,8 +65,8 @@ public class ProduceTenPinBowlingScoringFile implements IProduceScoringFile {
                         builderLine1.append(mark);
                     }
                 } else {
-                    result1 = allFrames[i][j].getResults().getPinFalls().get(0);
-                    result2 = allFrames[i][j].getResults().getPinFalls().get(1);
+                    result1 = allFrame[j].getResults().getPinFalls().get(0);
+                    result2 = allFrame[j].getResults().getPinFalls().get(1);
                     // When normal result
                     if (mark.equals('#')) {
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
@@ -94,7 +76,7 @@ public class ProduceTenPinBowlingScoringFile implements IProduceScoringFile {
                     }
                     // When spare happens
                     else if (mark.equals('/')) {
-                        result3 = allFrames[i][j].getResults().getPinFalls().get(2);
+                        result3 = allFrame[j].getResults().getPinFalls().get(2);
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
                         builderLine1.append(result1);
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
@@ -104,7 +86,7 @@ public class ProduceTenPinBowlingScoringFile implements IProduceScoringFile {
                     }
                     // When strike happens
                     else if (mark.equals('X')) {
-                        result3 = allFrames[i][j].getResults().getPinFalls().get(2);
+                        result3 = allFrame[j].getResults().getPinFalls().get(2);
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
                         builderLine1.append(mark);
                         builderLine1.append(Constants.FILE_TAB_DELIMITER);
